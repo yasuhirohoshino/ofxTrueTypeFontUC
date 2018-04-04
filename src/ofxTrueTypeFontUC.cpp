@@ -1281,7 +1281,12 @@ void ofxTrueTypeFontUC::Impl::loadChar(const int &charID) {
   cps[i].v1 = float(cps[i].tH + border_) / float(h);
   expandedData.pasteInto(atlasPixels, border_, border_);
   
-  textures[i].allocate(atlasPixels.getWidth(), atlasPixels.getHeight(), GL_LUMINANCE_ALPHA, false);
+  if (ofIsGLProgrammableRenderer()) {
+	  textures[i].allocate(atlasPixels.getWidth(), atlasPixels.getHeight(), GL_RGBA, false);
+  }
+  else {
+	  textures[i].allocate(atlasPixels.getWidth(), atlasPixels.getHeight(), GL_LUMINANCE_ALPHA, false);
+  }
   
   if (bAntiAliased_ && fontSize_>20) {
     textures[i].setTextureMinMagFilter(GL_LINEAR,GL_LINEAR);
